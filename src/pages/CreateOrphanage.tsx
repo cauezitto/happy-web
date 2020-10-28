@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState, useEffect  } from "react";
 import { Map, Marker, TileLayer } from 'react-leaflet';
 import {FiPlus} from 'react-icons/fi'
 
@@ -10,6 +10,27 @@ import mapIcon from '../utils/markerIcon'
 import Orphanage from "./Orphanage";
 import api from "../services/api";
 import { useHistory } from "react-router-dom";
+import auth from "../utils/auth";
+import '../components/SignUpPopUp/style.css'
+
+interface UserProps{
+  username: string,
+  email: string,
+  password: string
+}
+
+interface PopUpProps{
+  show?: boolean,
+  values: {
+      username: string,
+      email: string,
+      password: string
+  },
+  changeValues: any,
+  onSubmit: any
+}
+
+
 
 export default function CreateOrphanage() {
 
@@ -22,10 +43,16 @@ export default function CreateOrphanage() {
   const [opening_hours, setOpening_hours] = useState('')
   const [images, setImages] = useState<File[]>([])
   const [previewImages, setPreviewImages] = useState<string[]>([])
-
+  const [modalShow, setModalShow] = useState(false)
   const [position, setPosition] = useState({
     latitude: 0,
     longitude: 0
+  })
+
+  const [userValues, setUserValues] = useState<UserProps>({
+    username: '',
+    email: '',
+    password: ''
   })
 
   const handleMapCLick = (event: LeafletMouseEvent) =>{
@@ -52,8 +79,28 @@ export default function CreateOrphanage() {
     setPreviewImages(selectedImagesPreview)
   }
 
-  const handleSubmit = async (e: FormEvent) =>{
+  const handleSignUp = async (e: FormEvent) =>{
     e.preventDefault()
+    await api.post('/register', userValues)
+    .then(async()=>{
+      await api.post('/auth', userValues)
+      .then(async res =>{
+        const token = res.data.token
+
+        auth.storeToken(token)
+
+        await handleCreateOrphanage()
+      })
+      .catch(err =>{
+        console.log(err)
+      })
+    })
+    .catch(err =>{
+      console.log(err)
+    })
+  }
+
+  const handleCreateOrphanage = async() =>{
 
     const data = new FormData()
 
@@ -68,14 +115,42 @@ export default function CreateOrphanage() {
       data.append('images', image)
     })
 
-    await api.post('/orphanages', data)
+    await api.post('/orphanages', data, {
+      headers:{
+        Authorization: `Bearer ${auth.getToken()}`
+      }
+    })
+      .then(()=>{
+        history.push('/success')
+      })
+      .catch(err =>{
+        const status = err.response.status
 
-    alert('cadastro realizado com sucesso')
+        switch (status) {
+          case 401:
+            auth.eraseToken()
+            alert('ops parece que sua sessão expirou')
+            history.push('/login')
+            break;
+          default:
+            alert('Ops algo deu errado, por favor tente mais tarde')
+        }
+      })
+  }
 
-    history.push('/app')
+  const handleSubmit = async (e: FormEvent) =>{
+    e.preventDefault()
+
+    if(!auth.isAuthenticated()){
+      setModalShow(true)
+    }
+    else{
+      await handleCreateOrphanage()
+    }
   }
 
   return (
+    <>
     <div id="page-create-orphanage">
       <SideBar/>
 
@@ -182,11 +257,59 @@ export default function CreateOrphanage() {
           </fieldset>
 
           <button className="confirm-button" type="submit">
-            Confirmar
+            CONFIRMAR
           </button>
         </form>
       </main>
+
+      <div id="sign-up-container" style = {{
+            display: modalShow? 'block': 'none'
+        }} >
+            <div className="sign-up-wrapper">
+                <form onSubmit = {handleSignUp}>
+                  <h1>
+                      Parece que você ainda não tem cadastro
+                  </h1>
+                  <div className = 'inputs-container' >
+                  <label>
+                      Nome <br/>
+                      <input 
+                      type="name"
+                      name = 'username'
+                      value = {userValues.username}
+                      onChange = {e => setUserValues({...userValues, username: e.target.value})}
+                      />
+                  </label>
+                  <label>
+                      E-mail <br/>
+                      <input 
+                      type="email"
+                      name = 'email'
+                      value = {userValues.email}
+                      onChange = {e => setUserValues({...userValues, email: e.target.value})}
+                      />
+                  </label>
+    
+                  <label>
+                      Senha <br/>
+                      <input 
+                      type="password"
+                      name = 'password'
+                      value = {userValues.password}
+                      onChange = {e => setUserValues({...userValues, password: e.target.value})}
+                      />
+                  </label>
+                  </div>
+    
+                  <button 
+                      type="submit">
+                      Cadastrar
+                  </button>
+                </form>
+            </div>
+        </div>
     </div>
+    </>
   );
 }
 

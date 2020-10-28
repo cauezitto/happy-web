@@ -13,12 +13,23 @@
   
    #side-bar img {
     width: 48px;
+    cursor: pointer;
+  }
+
+  #side-bar footer{
+    
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
   }
   
    #side-bar footer a,
    #side-bar footer button {
     width: 48px;
     height: 48px;
+
+    margin-top: 10px;
   
     border: 0;
   
@@ -32,6 +43,43 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  #side-bar .dashboard-controls{
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+
+    align-items: center;
+  }
+
+  #side-bar .dashboard-controls .dashboard-option{
+    margin: auto;
+    border-radius: 20px;
+    background-color: #FFD666;
+    padding: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  #side-bar .dashboard-controls .dashboard-option:hover{
+    background-color:  #fae098;
+  }
+
+  #side-bar .dashboard-controls .dashboard-option2{
+    background-color: #12AFCB;
+  }
+
+  #side-bar .dashboard-controls .dashboard-option2:hover{
+    background: #17D6EB;
+  }
+
+  #side-bar .dashboard-controls .dashboard-option img{
+    width: 35px;
+    height: 35px;
   }
   
    #side-bar footer a:hover,

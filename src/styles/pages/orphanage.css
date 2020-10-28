@@ -54,7 +54,7 @@
 }
 
 .orphanage-details .orphanage-details-content {
-  padding: 80px;
+  padding: 80px 80px 50px 80px;
 }
 
 .orphanage-details .orphanage-details-content h1 {
@@ -169,4 +169,59 @@
 
 .orphanage-details .orphanage-details-content button.contact-button:hover {
   background: #36CF82;
+}
+
+.orphanage-details .approve-container{
+  box-sizing: border-box;
+  border-radius: 0px 0px 20px 20px;
+  border-top: 1px solid #D3E2E5;
+  background: #F5F8FA;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orphanage-details .approve-container .input-block{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  width: 80%;
+}
+
+.orphanage-details .approve-container .input-block button {
+  height: 64px;
+  width: 100%;
+  background: #F5F8FA;
+  border: 1px solid #D3E2E5;
+  color: #fff;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 18px;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orphanage-details .approve-container .input-block button.active {
+  background: #EDFFF6;
+  border: 1px solid #A1E9C5;
+  color: #37C77F;
+}
+
+.orphanage-details .approve-container .input-block button:first-child {
+  border-radius: 20px ;
+  background: #FF669D;
+}
+
+.orphanage-details .approve-container .input-block button:last-child {
+  border-radius: 20px;
+  background: #3CDC8C;
+}
+
+.orphanage-details .approve-container .input-block img{
+  margin-right: 10px;
 }

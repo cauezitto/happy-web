@@ -1,0 +1,156 @@
+#login-page{
+    background: linear-gradient(329.54deg, #29B6D1 0%, #00C7C7 100%);
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-container .logo{
+    height: 226px;
+    width: 250px;
+}
+
+.form-container{
+    width: 700px;
+    height: 100vh;
+
+    background-color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-container .go-back{
+    background-color: #EBF2F5;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    border: 0;
+    outline: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+
+    top: 30px;
+    right: 30px;
+
+    cursor: pointer;
+}
+
+.form-container .login-form{
+    width: 360px;
+    height: 430px;
+
+    padding: 10px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'title title'
+                          'email email'
+                          'password password'
+                          'remember forget-password'
+                          'submit submit';
+
+}
+
+.form-container .login-form label{
+    color: #5C8599;
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.form-container .login-form label input{
+    
+    background: #F5F8FA;
+    border: 1px solid #37C77F;
+    outline: 0;
+
+    width: 100%;
+    height: 64px;
+    border-radius: 20px;
+    text-indent: 30px;
+    color: #5C8599;
+    font-size: 16px;
+}
+
+.title{
+    grid-area: title;
+    color: #5C8599;
+    font-size: 35px;
+}
+
+.email{
+    grid-area: email;
+}
+
+.password{
+    grid-area: password;
+}
+
+.remember{
+    display: flex;
+    align-items: center;       
+    grid-area: remember;
+    width: 15px;
+    color: #5C8599;
+    font-size: 14px;
+    width: 100%;
+
+}
+
+.forget{
+    display: flex;
+    align-items: center;                
+    grid-area: forget-password;
+    width: 15px;
+    font-size: 14px;
+    width: 100%;
+    color: #5C8599;
+
+}
+
+.remember input{
+    margin-right: 10px;
+    margin-left: 7px;
+    width: 14px;
+    height: 14px;
+    border: 1px solid;
+    border-radius: 3px;
+}
+
+.remember input[type=checkbox]:checked {
+   
+}
+
+.submit{
+    background: #37C77F;
+    border-radius: 20px;
+    grid-area: submit;
+    color: #fff;
+
+    height: 64px;
+    border: 0;
+    outline: 0;
+
+    cursor: pointer;
+
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+}

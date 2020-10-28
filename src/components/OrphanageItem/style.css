@@ -1,0 +1,46 @@
+#orphanage-item{
+
+}
+
+#orphanage-item footer{
+    height: 60px;
+    width: 100%;
+    background-color: #fff;
+
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#orphanage-item footer strong{
+   color: #4D6F80;
+   margin-left: 20px;
+}
+
+#orphanage-item footer .options{
+    width: 120px;
+    padding: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#orphanage-item footer .options .option{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #EBF2F5;
+    margin: auto;
+}
+
+#orphanage-item footer .options .option img{
+    margin: auto;
+    width: 20px;
+}

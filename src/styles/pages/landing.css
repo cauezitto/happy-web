@@ -62,8 +62,26 @@
     text-align: right;
 }
 
-.content-wrapper .location strong{
+.content-wrapper .location a{
     font-weight: 800;
+    background: #12D4E0;
+    border-radius: 20px;
+    height: 56px;
+    width: 222px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.content-wrapper .location a:hover{
+    transition: 250ms;
+    background: #96FEFF; 
+    color: #15C3D6;
 }
 
 .content-wrapper .enter-app{

@@ -4,6 +4,7 @@ import logo from '../../assets/logo.svg'
 
 import {FiArrowRight} from 'react-icons/fi'
 import { Link } from 'react-router-dom';
+import auth from '../../utils/auth';
 
 function App() {
   return (
@@ -21,13 +22,9 @@ function App() {
       </main>
 
         <div className="location">
-          <strong>
-            São Paulo
-          </strong>
-
-          <span>
-            SP
-          </span>
+          <Link to = {auth.isAuthenticated()? '/orphanages': '/login'} >
+            Acesso restrito
+          </Link>
         </div>
 
         <Link to = "/app" className="enter-app">

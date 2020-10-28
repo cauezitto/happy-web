@@ -21,6 +21,7 @@ interface Orphanage {
 
 const OrphanagesMap: React.FC = () => {
 
+
   const [orphanages, setOrphanages] = useState<Orphanage[]>([])
 
   const loadOrphanages = async() => {
@@ -31,6 +32,7 @@ const OrphanagesMap: React.FC = () => {
 
   useEffect(()=>{
     loadOrphanages()
+    
   },[])
 
   return (

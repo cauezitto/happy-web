@@ -4,13 +4,17 @@ import { FiClock, FiInfo} from "react-icons/fi";
 import { Map, Marker, TileLayer } from "react-leaflet";
 import SideBar from '../components/SideBar/index'
 import happyMapIcon from '../utils/markerIcon'
+import xCircleImg from '../assets/x-circle.svg'
+import checkImg from '../assets/check.svg'
 
-import {useParams} from 'react-router-dom'
+import {useHistory, useParams} from 'react-router-dom'
 
 import '../styles/pages/orphanage.css';
 import api from "../services/api";
+import auth from "../utils/auth";
 
 interface Orphanage {
+  id: number
   name: string,
   about: string,
   description: string,
@@ -34,14 +38,69 @@ export default function Orphanage() {
   const [orphanage, setOrphanage] = useState<Orphanage>()
   const params = useParams<OrphanageParams>()
   const [activeImageIndex, setActiveImageIndex] = useState(0)
+
+  const history = useHistory()
   
   const loadOrphanages = async() => {
     const response = await api.get(`/orphanages/${params.id}`)
 
-
     setOrphanage(response.data)
   }
 
+  const handleDeleteOrphanage = async() =>{
+    await api.delete(`/orphanages/${orphanage?.id}`, {
+      headers: {
+        Authorization: `Bearer ${auth.getToken()}`
+      }
+    })
+      .then(()=>{
+        alert('deletado com sucesso')
+        history.goBack()
+      })
+      .catch(err =>{
+        const status = err.response.status
+
+        switch (status) {
+          case 401:
+            alert('acesso não altorizado')
+            auth.eraseToken()
+            history.push('/login')
+            break;
+        
+          default:
+            alert('ops, algo deu errado, por favor tente mais tarde')
+            history.goBack()
+            break;
+        }
+      })
+  }  
+  const handleApproveOrphanage = async() =>{
+    await api.put('/orphanages',{id: orphanage?.id}, {
+      headers: {
+        Authorization: `Bearer ${auth.getToken()}`
+      }
+    })
+      .then(()=>{
+        alert('aprovado com sucesso')
+        history.goBack()
+      })
+      .catch(err =>{
+        const status = err.response.status
+
+        switch (status) {
+          case 401:
+            alert('acesso não altorizado')
+            auth.eraseToken()
+            history.push('/login')
+            break;
+        
+          default:
+            alert('ops, algo deu errado, por favor tente mais tarde')
+            history.goBack()
+            break;
+        }
+      })
+  }
   useEffect(()=>{
     loadOrphanages()
   },[params.id])
@@ -145,6 +204,27 @@ export default function Orphanage() {
 
             }
           </div>
+
+          <footer className = 'approve-container' > 
+                <div className="input-block">
+
+                    <button 
+                      type="button" 
+                      className= 'recuse-button'
+                      onClick = {handleDeleteOrphanage}
+                      >
+                        <img src= {xCircleImg} alt=""/>
+                        Recusar</button>
+                    <button 
+                      type="button" 
+                      className = 'approve-button'
+                      onClick = {handleApproveOrphanage}
+                      >
+                        <img src= {checkImg} alt=""/>
+                        Aprovar</button>
+                  
+                </div>
+            </footer>
         </div>
       </main>
     </div>

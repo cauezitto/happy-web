@@ -1,0 +1,12 @@
+.orphanages-container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.orphanages-container h2{
+    width: 100%;
+    border: 1px solid;
+}
