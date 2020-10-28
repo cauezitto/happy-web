@@ -24,7 +24,8 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start -p $PORT",
+    "dev": "react-scripts start -p $PORT",
+    "start": "yarn serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
