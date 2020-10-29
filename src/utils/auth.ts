@@ -51,6 +51,13 @@ export default {
     },
 
     eraseToken(){
+        const token = localStorage.getItem(tokenKey)
+
+        if(!token){
+            sessionStorage.removeItem(tokenKey)
+            return
+        }
+
         localStorage.removeItem(tokenKey)
     },
 }
