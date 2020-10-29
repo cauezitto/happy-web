@@ -19,15 +19,9 @@ interface UserProps{
   password: string
 }
 
-interface PopUpProps{
-  show?: boolean,
-  values: {
-      username: string,
-      email: string,
-      password: string
-  },
-  changeValues: any,
-  onSubmit: any
+interface FormErrorProps{
+  images: boolean,
+  position: boolean
 }
 
 
@@ -79,6 +73,34 @@ export default function CreateOrphanage() {
     setPreviewImages(selectedImagesPreview)
   }
 
+  const handleDataVerify = () =>{
+    if(images.length === 0){
+      return{
+        images: true,
+        position: false
+      }
+    }
+    if(position.latitude === 0 && position.longitude === 0){
+      return{
+        position: true,
+        images: false
+      }
+    }
+  }
+
+  const handleAlert = (err: FormErrorProps) =>{
+    const {images, position} = err
+
+    if(images){
+      window.scroll(0,500)
+      alert('Por favor selecione as imagens para o cadastro do orfanato')
+    }
+    else if(position){
+      window.scroll(0,0)
+      alert('Por favor selecione a localização no mapa')
+    }
+  }
+
   const handleSignUp = async (e: FormEvent) =>{
     e.preventDefault()
     await api.post('/register', userValues)
@@ -103,6 +125,13 @@ export default function CreateOrphanage() {
   const handleCreateOrphanage = async() =>{
 
     const data = new FormData()
+
+    const err = handleDataVerify()
+
+    if(err){
+      handleAlert(err)
+      return
+    }
 
     data.append('name', name)
     data.append('about', about)
@@ -141,6 +170,8 @@ export default function CreateOrphanage() {
   const handleSubmit = async (e: FormEvent) =>{
     e.preventDefault()
 
+
+
     if(!auth.isAuthenticated()){
       setModalShow(true)
     }
@@ -159,22 +190,28 @@ export default function CreateOrphanage() {
           <fieldset>
             <legend>Dados</legend>
 
-            <Map 
-              center={[-23.5897553,-46.5138895]} 
-              style={{ width: '100%', height: 280 }}
-              zoom={12}
-              onclick = {handleMapCLick}
-            >
-              <TileLayer 
-                url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
-              />
+            <div className="map-container">
+                <Map 
+                  center={[-23.5897553,-46.5138895]} 
+                  style={{ width: '100%', height: 280 }}
+                  zoom={12}
+                  onclick = {handleMapCLick}
+                >
+                  <TileLayer 
+                    url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
+                  />
 
-              {
-                position.latitude !== 0 &&
+                  {
+                    position.latitude !== 0 &&
 
-                <Marker interactive={false} icon={mapIcon} position={[position.latitude, position.longitude]} />
-              }
-            </Map>
+                    <Marker interactive={false} icon={mapIcon} position={[position.latitude, position.longitude]} />
+                  }
+                </Map>
+
+                <footer>
+                  <p>Clique no mapa para adicionar a localização</p>
+                </footer>
+            </div>
 
             <div className="input-block">
               <label htmlFor="name">Nome</label>
@@ -182,6 +219,7 @@ export default function CreateOrphanage() {
                 id="name"
                 value = {name}
                 onChange = {e => setName(e.target.value)}
+                required
                  />
             </div>
 
@@ -192,6 +230,7 @@ export default function CreateOrphanage() {
                 maxLength={300}
                 value = {about}
                 onChange = {e => setAbout(e.target.value)}
+                required
                  />
             </div>
 
@@ -226,6 +265,7 @@ export default function CreateOrphanage() {
                 id="instructions"
                 value = {instructions}
                 onChange = {e => setInstructions(e.target.value)}
+                required
                  />
             </div>
 
@@ -235,6 +275,7 @@ export default function CreateOrphanage() {
                 id="opening_hours"
                 value = {opening_hours}
                 onChange = {e => setOpening_hours(e.target.value)}
+                required
                  />
             </div>
 

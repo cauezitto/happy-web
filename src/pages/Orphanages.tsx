@@ -67,7 +67,7 @@ const Orphanages: React.FC = () => {
                     <img src={notFoundImg} alt="Nenhum encontrado"/>
 
                     <h2>
-                      Nenhum no momento
+                      Você não tem orfanatos cadastrados
                     </h2>
                   </div>
                 )
